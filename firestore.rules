@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == 'saswata.chiplevel@gmail.com';
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Connection testing
+    match /test/connection {
+      allow read: if true;
+    }
+
+    // Consultations
+    match /consultations/{consultationId} {
+      allow read: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow create: if request.resource.data.name is string 
+                    && request.resource.data.name.size() >= 2
+                    && request.resource.data.name.size() <= 100
+                    && request.resource.data.email is string
+                    && request.resource.data.email.size() <= 120
+                    && request.resource.data.phone is string
+                    && request.resource.data.phone.size() >= 8
+                    && request.resource.data.phone.size() <= 20
+                    && request.resource.data.service in ['Mutual Funds', 'Life Insurance', 'Health Insurance', 'Loans', 'Credit Cards', 'Stocks & Bonds', 'General Financial Guidance']
+                    && request.resource.data.status in ['pending', 'contacted', 'scheduled', 'completed'];
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Partner Inquiries
+    match /partnerInquiries/{inquiryId} {
+      allow read: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow create: if request.resource.data.fullName is string
+                    && request.resource.data.fullName.size() >= 2
+                    && request.resource.data.fullName.size() <= 100
+                    && request.resource.data.email is string
+                    && request.resource.data.email.size() <= 120
+                    && request.resource.data.phone is string
+                    && request.resource.data.phone.size() >= 8
+                    && request.resource.data.status in ['pending', 'reviewed', 'contacted'];
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // User Profiles
+    match /userProfiles/{userId} {
+      allow read: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow create, update: if isSignedIn() && request.auth.uid == userId
+                            && request.resource.data.email is string
+                            && request.resource.data.email.size() <= 120;
+      allow delete: if isSignedIn() && request.auth.uid == userId;
+    }
+  }
+}

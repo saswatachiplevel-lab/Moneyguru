@@ -1,0 +1,189 @@
+{
+  "entities": {
+    "Consultation": {
+      "title": "Consultation",
+      "description": "Financial consultation booking request submitted by prospective client",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Full name of the client",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address of the client",
+          "maxLength": 120
+        },
+        "phone": {
+          "type": "string",
+          "description": "Contact telephone or mobile number",
+          "minLength": 8,
+          "maxLength": 20
+        },
+        "service": {
+          "type": "string",
+          "description": "Financial service interest category",
+          "enum": [
+            "Mutual Funds",
+            "Life Insurance",
+            "Health Insurance",
+            "Loans",
+            "Credit Cards",
+            "Stocks & Bonds",
+            "General Financial Guidance"
+          ]
+        },
+        "preferredContact": {
+          "type": "string",
+          "description": "Preferred communication channel",
+          "enum": ["Phone", "Email", "WhatsApp"]
+        },
+        "message": {
+          "type": "string",
+          "description": "Questions or specific financial requirements",
+          "maxLength": 1000
+        },
+        "status": {
+          "type": "string",
+          "description": "Lifecycle status of consultation inquiry",
+          "enum": ["pending", "contacted", "scheduled", "completed"]
+        },
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID if user is authenticated",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of submission",
+          "maxLength": 40
+        }
+      },
+      "required": ["name", "email", "phone", "service", "preferredContact", "status", "createdAt"]
+    },
+    "PartnerInquiry": {
+      "title": "PartnerInquiry",
+      "description": "Partnership or business collaboration proposal",
+      "type": "object",
+      "properties": {
+        "fullName": {
+          "type": "string",
+          "description": "Full name of the partner applicant",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "organization": {
+          "type": "string",
+          "description": "Company or professional firm name",
+          "maxLength": 120
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Business email",
+          "maxLength": 120
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone number",
+          "minLength": 8,
+          "maxLength": 20
+        },
+        "partnershipType": {
+          "type": "string",
+          "description": "Category of collaboration",
+          "enum": ["Referral Partner", "Corporate Wellness", "Financial Advisory Associate", "Strategic Distribution", "Other"]
+        },
+        "message": {
+          "type": "string",
+          "description": "Details about proposed partnership",
+          "maxLength": 1000
+        },
+        "status": {
+          "type": "string",
+          "description": "Status of inquiry",
+          "enum": ["pending", "reviewed", "contacted"]
+        },
+        "userId": {
+          "type": "string",
+          "description": "User ID if logged in",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of creation",
+          "maxLength": 40
+        }
+      },
+      "required": ["fullName", "email", "phone", "partnershipType", "status", "createdAt"]
+    },
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Client profile containing preferences and financial journey status",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of user",
+          "maxLength": 128
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name",
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User account email",
+          "maxLength": 120
+        },
+        "phone": {
+          "type": "string",
+          "description": "User phone number",
+          "maxLength": 20
+        },
+        "riskAppetite": {
+          "type": "string",
+          "description": "Investor risk preference",
+          "enum": ["Conservative", "Moderate", "Aggressive", "Not Sure"]
+        },
+        "primaryGoal": {
+          "type": "string",
+          "description": "Primary financial objective",
+          "maxLength": 200
+        },
+        "savedArticleIds": {
+          "type": "array",
+          "description": "List of bookmarked educational article slugs",
+          "items": {
+            "type": "string"
+          }
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "Last update timestamp",
+          "maxLength": 40
+        }
+      },
+      "required": ["userId", "email"]
+    }
+  },
+  "firestore": {
+    "/consultations/{consultationId}": {
+      "schema": "Consultation",
+      "description": "Public and user-associated consultation bookings"
+    },
+    "/partnerInquiries/{inquiryId}": {
+      "schema": "PartnerInquiry",
+      "description": "Partner collaboration inquiries"
+    },
+    "/userProfiles/{userId}": {
+      "schema": "UserProfile",
+      "description": "User account profile and saved investor preferences"
+    }
+  }
+}

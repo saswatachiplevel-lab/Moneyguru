@@ -1,0 +1,6 @@
+{
+  "name": "Moneyguru Financial Services",
+  "description": "Explore mutual funds, insurance, loans, credit cards, stocks and bonds with clear, beginner-friendly financial guidance from Moneyguru Financial Services.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
