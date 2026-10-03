@@ -21,6 +21,12 @@ import {
   orderBy
 } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
+import {
+  syncUserWithSqlBackend,
+  createSqlConsultation,
+  createSqlPartnerInquiry,
+  updateSqlUserProfile
+} from './api.ts';
 
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
@@ -98,9 +104,12 @@ googleProvider.setCustomParameters({ prompt: 'select_account' });
 export async function loginWithGoogle(): Promise<User> {
   try {
     const result = await signInWithPopup(auth, googleProvider);
-    // Initialize or update user profile doc
+    // Initialize or update user profile doc in Firestore and PostgreSQL
     if (result.user) {
-      await syncUserProfile(result.user);
+      await Promise.allSettled([
+        syncUserProfile(result.user),
+        syncUserWithSqlBackend(),
+      ]);
     }
     return result.user;
   } catch (err: unknown) {
@@ -137,6 +146,16 @@ export async function submitConsultation(data: Omit<ConsultationBooking, 'id' | 
       createdAt: new Date().toISOString(),
     };
     const ref = await addDoc(collection(db, path), payload);
+    // Also persist to PostgreSQL Cloud SQL backend
+    createSqlConsultation({
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      service: data.service,
+      preferredContact: data.preferredContact,
+      message: data.message,
+      userId: payload.userId,
+    }).catch(err => console.warn('SQL consultation sync background warning:', err));
     return ref.id;
   } catch (error) {
     handleFirestoreError(error, OperationType.CREATE, path);
@@ -181,6 +200,15 @@ export async function submitPartnerInquiry(data: Omit<PartnerInquiryData, 'id' |
       createdAt: new Date().toISOString(),
     };
     const ref = await addDoc(collection(db, path), payload);
+    // Also persist to PostgreSQL Cloud SQL backend
+    createSqlPartnerInquiry({
+      fullName: data.fullName,
+      organization: data.organization,
+      email: data.email,
+      phone: data.phone,
+      partnershipType: data.partnershipType,
+      message: data.message,
+    }).catch(err => console.warn('SQL partner inquiry sync background warning:', err));
     return ref.id;
   } catch (error) {
     handleFirestoreError(error, OperationType.CREATE, path);
@@ -245,6 +273,13 @@ export async function updateUserProfile(userId: string, updates: Partial<UserPro
       userId,
       updatedAt: new Date().toISOString()
     }, { merge: true });
+    // Also persist profile updates to PostgreSQL Cloud SQL
+    updateSqlUserProfile({
+      displayName: updates.displayName,
+      phone: updates.phone,
+      riskAppetite: updates.riskAppetite,
+      primaryGoal: updates.primaryGoal,
+    }).catch(err => console.warn('SQL profile sync background warning:', err));
   } catch (error) {
     handleFirestoreError(error, OperationType.UPDATE, path);
   }
