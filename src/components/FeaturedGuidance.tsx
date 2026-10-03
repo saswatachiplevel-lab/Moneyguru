@@ -86,8 +86,12 @@ export const FeaturedGuidance: React.FC<FeaturedGuidanceProps> = ({ onOpenConsul
           <div className="lg:col-span-6 relative">
             <div className="relative rounded-3xl sm:rounded-[36px] overflow-hidden border border-white/15 shadow-2xl group">
               <img
-                src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=1000&q=80"
+                src="/smarter-decisions.jpg"
                 alt="Financial advisor reviewing tailored portfolio with client"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  e.currentTarget.src = "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=85";
+                }}
                 className="w-full h-[420px] sm:h-[490px] object-cover object-center transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#071D29]/80 via-transparent to-transparent" />

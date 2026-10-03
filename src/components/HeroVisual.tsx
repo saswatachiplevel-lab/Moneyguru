@@ -9,6 +9,7 @@ import {
   Layers,
   ChevronRight
 } from 'lucide-react';
+import { MoneyguruLogo } from './MoneyguruLogo';
 
 export const HeroVisual: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'allocation' | 'goals'>('allocation');
@@ -32,9 +33,7 @@ export const HeroVisual: React.FC = () => {
 
       {/* Floating Main Lime Badge: "Your Goals. Your Plan." */}
       <div className="absolute -bottom-6 left-2 sm:-left-4 z-30 bg-[#C9F24A] text-[#071D29] px-5 py-3 rounded-2xl shadow-2xl shadow-[#C9F24A]/30 border border-[#D9F77A] flex items-center gap-3 transition-transform hover:scale-105">
-        <div className="w-8 h-8 rounded-xl bg-[#071D29] flex items-center justify-center text-[#C9F24A] font-black text-sm">
-          MG
-        </div>
+        <MoneyguruLogo size={34} showText={false} />
         <div>
           <p className="text-xs font-extrabold tracking-tight uppercase leading-none">Your Goals. Your Plan.</p>
           <p className="text-[11px] font-medium text-[#071D29]/80 mt-0.5">Simple, structured guidance</p>

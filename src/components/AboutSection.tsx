@@ -1,5 +1,5 @@
-import React from 'react';
-import { CheckCircle, ArrowUpRight, Compass, Target, Sparkles } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { CheckCircle, ArrowUpRight, Compass, Target, Sparkles, Camera, RotateCcw } from 'lucide-react';
 
 interface AboutSectionProps {
   onLearnMore: () => void;
@@ -10,6 +10,36 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
   onLearnMore,
   onOpenConsultation,
 }) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [photoSrc, setPhotoSrc] = useState<string>(() => {
+    return localStorage.getItem('moneyguru_advisor_photo') || '/about-portrait.jpg';
+  });
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const result = event.target?.result as string;
+        if (result) {
+          setPhotoSrc(result);
+          try {
+            localStorage.setItem('moneyguru_advisor_photo', result);
+          } catch (err) {
+            console.warn('Could not cache photo to localStorage:', err);
+          }
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleResetPhoto = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    localStorage.removeItem('moneyguru_advisor_photo');
+    setPhotoSrc('/about-portrait.jpg');
+  };
+
   return (
     <section id="about" className="py-20 lg:py-28 bg-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,23 +47,66 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
           
           {/* LEFT COLUMN: Large Editorial Photography */}
           <div className="lg:col-span-6 relative">
-            <div className="relative rounded-3xl sm:rounded-[36px] overflow-hidden shadow-2xl border border-gray-100 group">
+            <div className="relative rounded-3xl sm:rounded-[36px] overflow-hidden shadow-2xl border border-gray-100 group bg-gray-100">
               <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1000&q=80"
-                alt="Moneyguru financial advisors collaborating with clients"
-                className="w-full h-[400px] sm:h-[480px] object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                src={photoSrc}
+                alt="Saswata Roy - AMFI-Registered Mutual Fund Distributor"
+                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  // If local image fails, fallback to high-availability CDN portrait or SVG
+                  if (photoSrc !== 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=85') {
+                    setPhotoSrc('https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=85');
+                  } else {
+                    e.currentTarget.src = '/saswata-roy.svg';
+                  }
+                }}
+                className="w-full h-[440px] sm:h-[500px] object-cover object-top transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#071D29]/70 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#071D29]/80 via-transparent to-transparent pointer-events-none" />
+
+              {/* Photo Upload / Reload Action on Hover */}
+              <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handlePhotoUpload}
+                  accept="image/*"
+                  className="hidden"
+                />
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  title="Upload or reload your custom portrait photo"
+                  className="px-3 py-1.5 rounded-full bg-[#071D29]/80 hover:bg-[#071D29] text-white text-xs font-semibold backdrop-blur-md border border-white/20 shadow-lg flex items-center gap-1.5 transition-all opacity-85 group-hover:opacity-100"
+                >
+                  <Camera className="w-3.5 h-3.5 text-[#C9F24A]" />
+                  <span>Update Photo</span>
+                </button>
+                {photoSrc !== '/about-portrait.jpg' && (
+                  <button
+                    type="button"
+                    onClick={handleResetPhoto}
+                    title="Reset to default photo"
+                    className="p-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white backdrop-blur-md transition-all"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
               
-              {/* Floating Reassurance Tag on Image */}
-              <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-white/40 shadow-xl flex items-center justify-between">
+              {/* Floating Credential Tag on Image */}
+              <div className="absolute bottom-6 left-6 right-6 bg-[#071D29]/95 backdrop-blur-md p-4 rounded-2xl border border-white/20 shadow-xl flex items-center justify-between pointer-events-auto">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#123B43] flex items-center justify-center text-[#C9F24A]">
+                  <div className="w-10 h-10 rounded-full bg-[#123B43] flex items-center justify-center text-[#C9F24A] shrink-0 border border-[#C9F24A]/40">
                     <Sparkles className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-xs font-bold text-[#092532]">Objective & Client-First</p>
-                    <p className="text-[11px] text-[#607078]">No aggressive sales quotas or biased pitches</p>
+                    <p className="text-xs sm:text-sm font-extrabold text-white tracking-wide">
+                      SASWATA ROY
+                    </p>
+                    <p className="text-[11px] text-[#C9F24A] font-semibold">
+                      AMFI-Registered Mutual Fund Distributor • ARN- 136048
+                    </p>
                   </div>
                 </div>
               </div>
@@ -91,7 +164,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
 
             </div>
 
-            {/* Horizontal CTA Banner (matches reference banner composition) */}
+            {/* Horizontal CTA Banner */}
             <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-[#071D29] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xl">
               <div className="flex items-center gap-3">
                 <div className="w-7 h-7 rounded-full bg-[#C9F24A] flex items-center justify-center text-[#071D29] shrink-0">

@@ -12,6 +12,7 @@ import { BlogSection } from './components/BlogSection';
 import { PartnerSection } from './components/PartnerSection';
 import { ContactConsultationSection } from './components/ContactConsultationSection';
 import { FinalCtaBanner } from './components/FinalCtaBanner';
+import { FaqSection } from './components/FaqSection';
 import { Footer } from './components/Footer';
 
 // Modals
@@ -135,7 +136,12 @@ export default function App() {
           onOpenPortal={() => setIsPortalOpen(true)}
         />
 
-        {/* 12. Final High-Contrast CTA Banner */}
+        {/* 12. Collapsible FAQ Section (Mutual Funds, Insurance, Loans) */}
+        <FaqSection
+          onOpenConsultation={(service) => scrollToContact(service)}
+        />
+
+        {/* 13. Final High-Contrast CTA Banner */}
         <FinalCtaBanner
           onOpenConsultation={() => scrollToContact()}
           onExploreServices={scrollToServices}

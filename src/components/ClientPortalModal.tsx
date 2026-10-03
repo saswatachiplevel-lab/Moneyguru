@@ -22,6 +22,7 @@ import {
   type UserProfile
 } from '../lib/firebase';
 import type { User } from 'firebase/auth';
+import { MoneyguruLogo } from './MoneyguruLogo';
 
 interface ClientPortalModalProps {
   isOpen: boolean;
@@ -115,9 +116,7 @@ export const ClientPortalModal: React.FC<ClientPortalModalProps> = ({
         {/* Header Bar */}
         <div className="bg-[#071D29] p-6 text-white flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-[#123B43] border border-[#C9F24A]/40 flex items-center justify-center text-[#C9F24A] font-bold">
-              {currentUser?.displayName ? currentUser.displayName[0] : 'MG'}
-            </div>
+            <MoneyguruLogo size={38} showText={false} />
             <div>
               <h3 className="text-lg font-bold">Moneyguru Client Portal</h3>
               <p className="text-xs text-white/60">

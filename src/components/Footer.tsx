@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowUpRight, ShieldCheck, Mail, Phone, Clock, FileText } from 'lucide-react';
+import { MoneyguruLogo } from './MoneyguruLogo';
 
 interface FooterProps {
   onOpenPrivacy: () => void;
@@ -27,19 +28,8 @@ export const Footer: React.FC<FooterProps> = ({
           
           {/* Column 1: Brand (4 cols) */}
           <div className="lg:col-span-4">
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 rounded-full bg-[#123B43] border border-[#C9F24A]/40 flex items-center justify-center">
-                <span className="text-[#C9F24A] font-bold text-lg leading-none">M</span>
-                <div className="w-1.5 h-1.5 rounded-full bg-[#C9F24A] -ml-0.5 mt-2" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-white font-bold text-lg tracking-tight leading-none">
-                  Moneyguru
-                </span>
-                <span className="text-[10px] uppercase tracking-widest text-[#C9F24A] font-semibold mt-0.5">
-                  Financial Services
-                </span>
-              </div>
+            <div className="mb-4">
+              <MoneyguruLogo size={46} showText={true} />
             </div>
 
             <p className="text-xs sm:text-sm text-white/70 leading-relaxed max-w-sm mt-3">
@@ -159,6 +149,11 @@ export const Footer: React.FC<FooterProps> = ({
                 >
                   Partner With Us
                 </button>
+              </li>
+              <li>
+                <a href="#faq" className="hover:text-[#C9F24A] transition-colors">
+                  FAQ
+                </a>
               </li>
               <li>
                 <a href="#contact" className="hover:text-[#C9F24A] transition-colors">

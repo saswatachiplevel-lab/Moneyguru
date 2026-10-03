@@ -20,9 +20,9 @@ export const QuickTrustStrip: React.FC<QuickTrustStripProps> = ({
           className="group relative h-[180px] sm:h-[190px] rounded-3xl overflow-hidden cursor-pointer shadow-xl border border-white/15 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
         >
           <img
-            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80"
+            src="https://images.unsplash.com/photo-1556742049-0a67c5574f73?auto=format&fit=crop&w=600&q=80"
             alt="Financial Consultation"
-            className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+            className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#071D29] via-[#071D29]/75 to-transparent flex flex-col justify-end p-5">
             <span className="text-[10px] uppercase font-bold tracking-wider text-[#C9F24A]">

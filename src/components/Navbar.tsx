@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { auth, loginWithGoogle, logoutUser } from '../lib/firebase';
 import type { User } from 'firebase/auth';
+import { MoneyguruLogo } from './MoneyguruLogo';
 
 interface NavbarProps {
   onOpenConsultation: (service?: string) => void;
@@ -73,19 +74,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           }`}
         >
           {/* Brand Logo */}
-          <a href="#" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-full bg-[#123B43] border border-[#C9F24A]/40 flex items-center justify-center transition-transform group-hover:scale-105 shadow-inner">
-              <span className="text-[#C9F24A] font-bold text-lg leading-none">M</span>
-              <div className="w-1.5 h-1.5 rounded-full bg-[#C9F24A] -ml-0.5 mt-2 animate-pulse" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-white font-bold text-lg tracking-tight leading-none group-hover:text-[#D9F77A] transition-colors">
-                Moneyguru
-              </span>
-              <span className="text-[10px] uppercase tracking-widest text-[#C9F24A] font-semibold mt-0.5">
-                Financial Services
-              </span>
-            </div>
+          <a href="#" className="flex items-center group transition-transform hover:scale-[1.02]">
+            <MoneyguruLogo size={42} showText={true} />
           </a>
 
           {/* Desktop Nav Items */}
@@ -132,6 +122,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               Partner
             </button>
+            <a
+              href="#faq"
+              className="text-white/80 hover:text-white px-3.5 py-1.5 text-sm font-medium rounded-full hover:bg-white/5 transition-all"
+            >
+              FAQ
+            </a>
             <a
               href="#contact"
               className="text-white/80 hover:text-white px-3.5 py-1.5 text-sm font-medium rounded-full hover:bg-white/5 transition-all"
@@ -261,6 +257,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               >
                 Partner With Us
               </button>
+              <a
+                href="#faq"
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-white/90 hover:text-[#C9F24A] px-4 py-2.5 text-base font-medium rounded-xl hover:bg-white/5"
+              >
+                FAQ
+              </a>
               <a
                 href="#contact"
                 onClick={() => setMobileMenuOpen(false)}
