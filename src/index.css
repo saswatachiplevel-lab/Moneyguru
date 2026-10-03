@@ -49,3 +49,24 @@
 .animate-glow {
   animation: pulseGlow 5s ease-in-out infinite;
 }
+
+/* Horizontal Market Ticker Animation */
+@keyframes tickerSlide {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  display: flex;
+  width: max-content;
+  animation: tickerSlide 42s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+

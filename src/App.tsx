@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { MarketTicker } from './components/MarketTicker';
 import { QuickTrustStrip } from './components/QuickTrustStrip';
 import { AboutSection } from './components/AboutSection';
 import { StatsSection } from './components/StatsSection';
@@ -83,6 +84,9 @@ export default function App() {
           onOpenConsultation={() => scrollToContact()}
           onOpenHowItWorks={scrollToJourney}
         />
+
+        {/* 1b. Real-Time Simulated Market Indices Ticker Strip */}
+        <MarketTicker />
 
         {/* 2. Quick Service & Consultation Feature Strip */}
         <QuickTrustStrip

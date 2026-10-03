@@ -24,6 +24,7 @@ export const ServiceDetailModal: React.FC<ServiceDetailModalProps> = ({
           <img
             src={service.imageUrl}
             alt={service.title}
+            referrerPolicy="no-referrer"
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#071D29] via-[#071D29]/60 to-transparent" />

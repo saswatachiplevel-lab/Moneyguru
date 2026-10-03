@@ -135,6 +135,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                 <img
                   src={service.imageUrl}
                   alt={service.title}
+                  referrerPolicy="no-referrer"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />

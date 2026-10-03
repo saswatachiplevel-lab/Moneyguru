@@ -139,7 +139,16 @@ export const ContactConsultationSection: React.FC<ContactConsultationSectionProp
                 </span>
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+              <div className="flex items-center gap-4 border-b border-white/10 pb-4">
+                <img
+                  src={localStorage.getItem('moneyguru_advisor_photo') || '/about-portrait.jpg'}
+                  alt="Saswata Roy"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    e.currentTarget.src = '/saswata-roy.svg';
+                  }}
+                  className="w-14 h-14 rounded-2xl object-cover object-top border border-[#C9F24A]/40 shadow-md shrink-0 bg-gray-900"
+                />
                 <div>
                   <h3 className="text-xl sm:text-2xl font-black text-white tracking-tight">
                     SASWATA ROY
