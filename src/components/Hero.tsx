@@ -44,9 +44,8 @@ export const Hero: React.FC<HeroProps> = ({
               </span>
             </div>
 
-            {/* Main Headline */}
             <h1 className="text-4xl sm:text-5xl xl:text-6xl font-extrabold text-white tracking-tight leading-[1.08] max-w-xl">
-              Build Your Financial Future With <span className="text-[#C9F24A] underline decoration-[#C9F24A]/30 decoration-wavy decoration-2">Clarity</span> & Confidence
+              Build Your Financial Future With Clarity & Confidence
             </h1>
 
             {/* Supporting Paragraph */}
