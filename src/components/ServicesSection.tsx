@@ -9,10 +9,14 @@ import {
   Landmark,
   ArrowUpRight,
   Sparkles,
-  ChevronRight
+  ChevronRight,
+  LineChart,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import { servicesData } from '../data/servicesData';
 import { FinancialService } from '../types';
+import { MutualFundChart } from './MutualFundChart';
 
 interface ServicesSectionProps {
   onSelectService: (service: FinancialService) => void;
@@ -24,6 +28,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
   onOpenConsultation,
 }) => {
   const [filter, setFilter] = useState<'all' | 'invest' | 'protect' | 'borrow'>('all');
+  const [showChart, setShowChart] = useState<boolean>(true);
 
   const filteredServices = servicesData.filter((s) => {
     if (filter === 'all') return true;
@@ -121,6 +126,49 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
             </button>
           </div>
         </div>
+
+        {/* D3.js Interactive Mutual Fund Index Performance Visualizer */}
+        {(filter === 'all' || filter === 'invest') && (
+          <div className="mt-10">
+            <div className="flex items-center justify-between mb-3 px-1">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-md bg-[#071D29] text-[#C9F24A] flex items-center justify-center">
+                  <LineChart className="w-3.5 h-3.5" />
+                </div>
+                <h3 className="text-sm sm:text-base font-extrabold text-[#092532] flex items-center gap-2">
+                  Mutual Fund Historical Index Visualizer
+                  <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                    D3.js Powered
+                  </span>
+                </h3>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setShowChart(!showChart)}
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-[#071D29] hover:text-emerald-700 transition-colors py-1 px-2.5 rounded-lg hover:bg-gray-200/60"
+              >
+                {showChart ? (
+                  <>
+                    <EyeOff className="w-3.5 h-3.5" />
+                    <span>Hide Chart</span>
+                  </>
+                ) : (
+                  <>
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>Expand Chart</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {showChart && (
+              <div className="animate-fadeIn">
+                <MutualFundChart onOpenConsultation={onOpenConsultation} />
+              </div>
+            )}
+          </div>
+        )}
 
         {/* 3-Column Card Grid */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
